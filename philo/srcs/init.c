@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:57:03 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/19 16:10:11 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/19 20:34:28 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	init_info(t_info *info, char **argv)
 		info->must_eat_count = philo_atoi(argv[5]);
 	else
 		info->must_eat_count = -1;
-	info->forks = malloc(sizeof(pthread_mutex_t) * info->num_of_philo);
+	info->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num_of_philo);
 	i = 0;
 	while (i < info->num_of_philo)
 	{
@@ -73,7 +73,7 @@ void	init_philo(t_philo **philo, t_info *info)
 	while (i < info->num_of_philo)
 	{
 		(*philo)[i].info = info;
-		(*philo)[i].id = 1;
+		(*philo)[i].id = i;
 		(*philo)[i].left_fork = info->forks[i];
 		(*philo)[i].right_fork = info->forks[(i + 1) % info->num_of_philo];
 		(*philo)[i].eat_time = 0;
