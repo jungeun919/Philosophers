@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:05 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/20 13:02:58 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/23 18:48:41 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	main(int argc, char *argv[])
 	init_info(&info, argv);
 	init_philo(&philo, &info);
 	start_philo_process(&philo, &info);
+	// monitoring(&philo, &info);
+	// free_all(&philo, &info);
 	return (0);
 }
 
@@ -46,10 +48,16 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->start_time = get_time();
-	printf("%lld\n", philo->start_time);
 	philo->eat_time = get_time();
 	if (philo->id % 2 == 0)
 		usleep(philo->info->time_to_eat * 1000);
+	while (philo->info->all_alive == 1)
+	{
+		philo_eat(philo);
+		philo_sleep(philo);
+		philo_think(philo);
+	}
+	return (NULL);
 }
 
 long long	get_time(void)

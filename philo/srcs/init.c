@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:57:03 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/19 20:34:28 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/23 18:09:20 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	init_info(t_info *info, char **argv)
 {
 	int	i;
 
-	// memset(&info, 0, sizeof(t_info));
 	info->num_of_philo = philo_atoi(argv[1]);
 	info->time_to_die = philo_atoi(argv[2]);
 	info->time_to_eat = philo_atoi(argv[3]);
@@ -59,7 +58,8 @@ void	init_info(t_info *info, char **argv)
 		i++;
 	}
 	pthread_mutex_init(&(info->print), NULL);
-	info->is_die = 0;
+	info->all_alive = 1;
+	info->finish = 0;
 }
 
 void	init_philo(t_philo **philo, t_info *info)
@@ -74,8 +74,8 @@ void	init_philo(t_philo **philo, t_info *info)
 	{
 		(*philo)[i].info = info;
 		(*philo)[i].id = i;
-		(*philo)[i].left_fork = info->forks[i];
-		(*philo)[i].right_fork = info->forks[(i + 1) % info->num_of_philo];
+		(*philo)[i].left_fork = i;
+		(*philo)[i].right_fork = (i + 1) % info->num_of_philo;
 		(*philo)[i].eat_time = 0;
 		(*philo)[i].eat_count = 0;
 		i++;

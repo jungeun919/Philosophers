@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:15 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/20 12:51:43 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/23 18:14:05 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ typedef struct s_info
 	int				must_eat_count;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
-	int				is_die;
+	int				all_alive;
+	int				finish;
 }	t_info;
 
 typedef struct s_philo
@@ -36,8 +37,8 @@ typedef struct s_philo
 	t_info			*info;
 	int				id;
 	pthread_t		thread;
-	pthread_mutex_t	left_fork;
-	pthread_mutex_t	right_fork;
+	int				left_fork;
+	int				right_fork;
 	long long		start_time;
 	long long		eat_time;
 	int				eat_count;
@@ -51,5 +52,13 @@ void		error_exit(char *str);
 int			philo_atoi(const char *str);
 void		init_info(t_info *info, char **argv);
 void		init_philo(t_philo **philo, t_info *info);
+
+void		philo_eat(t_philo *philo);
+void		philo_sleep(t_philo *philo);
+void		philo_think(t_philo *philo);
+
+void		monitoring(t_philo **philo, t_info *info);
+void		print_status(t_philo *philo, char *str);
+void		free_all(t_philo **philo, t_info *info);
 
 #endif

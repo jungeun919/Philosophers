@@ -6,7 +6,7 @@
 #    By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/16 16:52:41 by jungchoi          #+#    #+#              #
-#    Updated: 2022/11/19 16:09:05 by jungchoi         ###   ########.fr        #
+#    Updated: 2022/11/23 18:18:32 by jungchoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ OBJS_DIR = objs
 
 SRCS = $(addprefix $(SRCS_DIR)/, \
 	philo.c \
-	init.c)
+	init.c \
+	act.c \
+	monitor.c)
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))
 
