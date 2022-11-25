@@ -6,14 +6,14 @@
 #    By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/16 16:52:41 by jungchoi          #+#    #+#              #
-#    Updated: 2022/11/23 18:18:32 by jungchoi         ###   ########.fr        #
+#    Updated: 2022/11/25 18:01:32 by jungchoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
 
 INCLUDES_DIR = includes
 SRCS_DIR = srcs
@@ -23,7 +23,9 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 	philo.c \
 	init.c \
 	act.c \
-	monitor.c)
+	monitor.c \
+	utils.c \
+	free.c)
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))
 

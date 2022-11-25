@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:05 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/23 18:48:41 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 21:30:39 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,20 @@ int	main(int argc, char *argv[])
 		printf("argument error\n");
 		exit(1);
 	}
-	init_info(&info, argv);
+	init_info(&info, argc, argv);
+	if (info.num_of_philo == 1)
+	{
+		// pthread_create();
+		printf("%d %d has taken a fork\n", 0, 1);
+		usleep(info.time_to_die * 1000);
+		printf("%d %d is died\n", info.time_to_die, 1);
+		return (0);
+	}
 	init_philo(&philo, &info);
+	printf("ms id act\n");
+	printf("=========\n");
 	start_philo_process(&philo, &info);
-	// monitoring(&philo, &info);
-	// free_all(&philo, &info);
+	free_all(&philo, &info);
 	return (0);
 }
 
@@ -35,9 +44,18 @@ void	start_philo_process(t_philo **philo, t_info *info)
 	int	i;
 
 	i = 0;
+	info->start_time = get_time();
 	while (i < info->num_of_philo)
 	{
 		pthread_create(&((*philo)[i].thread), NULL, routine, &((*philo)[i]));
+		usleep(1000);
+		i++;
+	}
+	monitoring(philo, info); // main thread
+	i = 0;
+	while (i < info->num_of_philo)
+	{
+		pthread_join((*philo)[i].thread, NULL);
 		i++;
 	}
 }
@@ -47,31 +65,27 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	philo->start_time = get_time();
-	philo->eat_time = get_time();
-	if (philo->id % 2 == 0)
-		usleep(philo->info->time_to_eat * 1000);
-	while (philo->info->all_alive == 1)
+	if (philo->id % 2 == 0) // 홀수부터 시작
+		usleep(philo->info->time_to_eat);
+	while (check_all_alive(philo->info))
 	{
 		philo_eat(philo);
+
+		pthread_mutex_lock(&(philo->guard));
+		philo->eat_count++;
+		// printf("========== philo[%d] eat count : %d\n", philo->id, philo->eat_count);
+		pthread_mutex_unlock(&(philo->guard));
+		
+		if (philo->eat_count == philo->info->must_eat_count)
+		{
+			pthread_mutex_lock(&(philo->guard));
+			philo->is_die = 1;
+			pthread_mutex_unlock(&(philo->guard));
+			break ;
+		}
+		
 		philo_sleep(philo);
 		philo_think(philo);
 	}
 	return (NULL);
-}
-
-long long	get_time(void)
-{
-	struct timeval	now;
-	long long		time;
-
-	gettimeofday(&now, NULL);
-	time = now.tv_sec * 1000 + now.tv_usec / 1000;
-	return (time);
-}
-
-void	error_exit(char *str)
-{
-	printf("%s\n", str);
-	exit(1);
 }
