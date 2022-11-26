@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 16:56:06 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 20:02:39 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/26 13:54:37 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,9 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_lock(&(philo->info->forks[philo->right_fork]));
 	if (check_all_alive(philo->info))
 		print_status(philo, "has taken a fork");
-	
 	pthread_mutex_lock(&(philo->guard));
 	philo->eat_time = get_time();
 	pthread_mutex_unlock(&(philo->guard));
-	
 	if (check_all_alive(philo->info))
 	{
 		print_status(philo, "is eating");
@@ -36,7 +34,6 @@ void	philo_eat(t_philo *philo)
 				usleep(100);
 		}
 	}
-
 	pthread_mutex_unlock(&(philo->info->forks[philo->left_fork]));
 	pthread_mutex_unlock(&(philo->info->forks[philo->right_fork]));
 }

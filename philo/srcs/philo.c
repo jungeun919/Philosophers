@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:05 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 21:30:39 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/26 13:52:34 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,6 @@ int	main(int argc, char *argv[])
 		exit(1);
 	}
 	init_info(&info, argc, argv);
-	if (info.num_of_philo == 1)
-	{
-		// pthread_create();
-		printf("%d %d has taken a fork\n", 0, 1);
-		usleep(info.time_to_die * 1000);
-		printf("%d %d is died\n", info.time_to_die, 1);
-		return (0);
-	}
 	init_philo(&philo, &info);
 	printf("ms id act\n");
 	printf("=========\n");
@@ -48,8 +40,16 @@ void	start_philo_process(t_philo **philo, t_info *info)
 	while (i < info->num_of_philo)
 	{
 		pthread_create(&((*philo)[i].thread), NULL, routine, &((*philo)[i]));
-		usleep(1000);
+		// usleep(1000);
 		i++;
+	}
+	if (info->num_of_philo == 1)
+	{
+		printf("%d %d has taken a fork\n", 0, 1);
+		usleep(info->time_to_die * 1000);
+		printf("%lld %d is died\n", \
+			get_time() - info->start_time, 1);
+		return ;
 	}
 	monitoring(philo, info); // main thread
 	i = 0;
@@ -66,24 +66,19 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0) // 홀수부터 시작
-		usleep(philo->info->time_to_eat);
+		// usleep(800);
+		usleep(philo->info->time_to_eat * 1000);
 	while (check_all_alive(philo->info))
 	{
 		philo_eat(philo);
-
-		pthread_mutex_lock(&(philo->guard));
-		philo->eat_count++;
-		// printf("========== philo[%d] eat count : %d\n", philo->id, philo->eat_count);
-		pthread_mutex_unlock(&(philo->guard));
-		
+		(philo->eat_count)++;
 		if (philo->eat_count == philo->info->must_eat_count)
 		{
 			pthread_mutex_lock(&(philo->guard));
 			philo->is_die = 1;
 			pthread_mutex_unlock(&(philo->guard));
-			break ;
+			// break ;
 		}
-		
 		philo_sleep(philo);
 		philo_think(philo);
 	}

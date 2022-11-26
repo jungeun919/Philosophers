@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 16:45:26 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 20:53:27 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/26 14:00:57 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ void	monitoring(t_philo **philo, t_info *info)
 	{
 		i = 0;
 		count = 0;
-		while (i < info->num_of_philo)
+		while (i < info->num_of_philo && check_all_alive(info))
 		{
 			check_philo_die(&((*philo)[i]), info);
 			pthread_mutex_lock(&((*philo)[i].guard));
-			
 			if ((*philo)[i].is_die == 1)
 				count++;
 			pthread_mutex_unlock(&((*philo)[i].guard));
@@ -43,17 +42,17 @@ void	monitoring(t_philo **philo, t_info *info)
 void	check_philo_die(t_philo *philo, t_info *info)
 {
 	pthread_mutex_lock(&(philo->guard));
-	if (philo->is_die) // 누군가 죽었으면 enter
+	if (philo->is_die == 0)
 	{
 		if (get_time() - philo->eat_time >= philo->info->time_to_die)
 		{
 			pthread_mutex_lock(&(info->guard));
 			print_status(philo, "is died");
 			info->all_alive = 0;
-			pthread_mutex_lock(&(info->guard));
+			pthread_mutex_unlock(&(info->guard));
 		}
 	}
-	pthread_mutex_lock(&(philo->guard));
+	pthread_mutex_unlock(&(philo->guard));
 }
 
 int	check_all_alive(t_info *info)

@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:15 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 19:11:28 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/26 13:59:12 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void		*routine(void *arg);
 // init.c
 int			philo_atoi(const char *str);
 void		init_info(t_info *info, int argc, char **argv);
+int			check_info_value(t_info *info);
 void		init_philo(t_philo **philo, t_info *info);
+void		free_info_malloc(t_info *info);
 
 // act.c
 void		philo_eat(t_philo *philo);

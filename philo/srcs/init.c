@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:57:03 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 20:06:04 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/26 13:58:49 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ void	init_info(t_info *info, int argc, char **argv)
 		info->must_eat_count = philo_atoi(argv[5]);
 	else
 		info->must_eat_count = -1;
+	if (!(check_info_value(info)))
+		error_exit("argument error");
 	info->all_alive = 1;
-	info->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num_of_philo);
+	info->forks = \
+		(pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num_of_philo);
 	if (!(info->forks))
 		error_exit("malloc error");
 	i = 0;
@@ -64,6 +67,17 @@ void	init_info(t_info *info, int argc, char **argv)
 	pthread_mutex_init(&(info->print), NULL);
 }
 
+int	check_info_value(t_info *info)
+{
+	if (info->num_of_philo <= 0 || \
+		info->time_to_die <= 0 || \
+		info->time_to_eat <= 0 || \
+		info->time_to_sleep <= 0)
+		return (0);
+	else
+		return (1);
+}
+
 void	init_philo(t_philo **philo, t_info *info)
 {
 	int	i;
@@ -71,7 +85,7 @@ void	init_philo(t_philo **philo, t_info *info)
 	*philo = malloc(sizeof(t_philo) * info->num_of_philo);
 	if (!(*philo))
 	{
-		// free info
+		free_info_malloc(info);
 		error_exit("malloc error");
 	}
 	i = 0;
@@ -82,9 +96,21 @@ void	init_philo(t_philo **philo, t_info *info)
 		pthread_mutex_init(&((*philo)[i].guard), NULL);
 		(*philo)[i].left_fork = i;
 		(*philo)[i].right_fork = (i + 1) % info->num_of_philo;
-		(*philo)[i].eat_time = 0;
+		(*philo)[i].eat_time = get_time();
 		(*philo)[i].eat_count = 0;
 		(*philo)[i].is_die = 0;
+		i++;
+	}
+}
+
+void	free_info_malloc(t_info *info)
+{
+	int	i;
+
+	i = 0;
+	while (info->num_of_philo)
+	{
+		free(&(info->forks[i]));
 		i++;
 	}
 }
