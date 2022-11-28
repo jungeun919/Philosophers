@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:15 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/26 13:59:12 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:51:11 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_info
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	guard;
 	pthread_mutex_t	print;
+	// pthread_mutex_t	moniter;
 }	t_info;
 
 typedef struct s_philo
@@ -52,9 +53,9 @@ void		*routine(void *arg);
 
 // init.c
 int			philo_atoi(const char *str);
-void		init_info(t_info *info, int argc, char **argv);
+int			init_info(t_info *info, int argc, char **argv);
 int			check_info_value(t_info *info);
-void		init_philo(t_philo **philo, t_info *info);
+int			init_philo(t_philo **philo, t_info *info);
 void		free_info_malloc(t_info *info);
 
 // act.c
@@ -70,7 +71,7 @@ int			check_all_alive(t_info *info);
 // utils.c
 void		print_status(t_philo *philo, char *str);
 long long	get_time(void);
-void		error_exit(char *str);
+int			return_error(char *str);
 
 // free.c
 void		free_all(t_philo **philo, t_info *info);

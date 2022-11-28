@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:05 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/26 13:52:34 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:51:42 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,11 @@ int	main(int argc, char *argv[])
 	t_philo	*philo;
 
 	if (!(argc == 5 || argc == 6))
-	{
-		printf("argument error\n");
-		exit(1);
-	}
-	init_info(&info, argc, argv);
-	init_philo(&philo, &info);
-	printf("ms id act\n");
-	printf("=========\n");
+		return (return_error("argument error"));
+	if (!(init_info(&info, argc, argv)))
+		return (0);
+	if (!(init_philo(&philo, &info)))
+		return (0);
 	start_philo_process(&philo, &info);
 	free_all(&philo, &info);
 	return (0);
@@ -40,7 +37,6 @@ void	start_philo_process(t_philo **philo, t_info *info)
 	while (i < info->num_of_philo)
 	{
 		pthread_create(&((*philo)[i].thread), NULL, routine, &((*philo)[i]));
-		// usleep(1000);
 		i++;
 	}
 	if (info->num_of_philo == 1)
@@ -51,7 +47,7 @@ void	start_philo_process(t_philo **philo, t_info *info)
 			get_time() - info->start_time, 1);
 		return ;
 	}
-	monitoring(philo, info); // main thread
+	monitoring(philo, info);
 	i = 0;
 	while (i < info->num_of_philo)
 	{
@@ -65,9 +61,9 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0) // 홀수부터 시작
-		// usleep(800);
-		usleep(philo->info->time_to_eat * 1000);
+	if (philo->id % 2 == 0)
+		usleep(200);
+		// usleep(philo->info->time_to_eat * 1000);
 	while (check_all_alive(philo->info))
 	{
 		philo_eat(philo);
@@ -77,7 +73,6 @@ void	*routine(void *arg)
 			pthread_mutex_lock(&(philo->guard));
 			philo->is_die = 1;
 			pthread_mutex_unlock(&(philo->guard));
-			// break ;
 		}
 		philo_sleep(philo);
 		philo_think(philo);

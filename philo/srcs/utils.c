@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:48:32 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 19:11:19 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:08:31 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ long long	get_time(void)
 	return (time);
 }
 
-void	error_exit(char *str)
+int	return_error(char *str)
 {
 	printf("%s\n", str);
-	exit(1);
+	return (0);
 }

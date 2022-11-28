@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:57:03 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/26 13:58:49 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:09:39 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ int	philo_atoi(const char *str)
 		{
 			res = (res * 10) + (str[i] - '0');
 			if (res > 2147483647)
-				error_exit("argument error");
+				return (-1);
 		}
 		else
-			error_exit("argument error");
+			return (-1);
 		i++;
 	}
 	return ((int)res);
 }
 
-void	init_info(t_info *info, int argc, char **argv)
+int	init_info(t_info *info, int argc, char **argv)
 {
 	int	i;
 
@@ -51,20 +51,18 @@ void	init_info(t_info *info, int argc, char **argv)
 	else
 		info->must_eat_count = -1;
 	if (!(check_info_value(info)))
-		error_exit("argument error");
+		return (return_error("argument error"));
 	info->all_alive = 1;
 	info->forks = \
 		(pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num_of_philo);
 	if (!(info->forks))
-		error_exit("malloc error");
-	i = 0;
-	while (i < info->num_of_philo)
-	{
+		return (return_error("malloc error"));
+	i = -1;
+	while (++i < info->num_of_philo)
 		pthread_mutex_init(&(info->forks[i]), NULL);
-		i++;
-	}
 	pthread_mutex_init(&(info->guard), NULL);
 	pthread_mutex_init(&(info->print), NULL);
+	return (1);
 }
 
 int	check_info_value(t_info *info)
@@ -78,7 +76,7 @@ int	check_info_value(t_info *info)
 		return (1);
 }
 
-void	init_philo(t_philo **philo, t_info *info)
+int	init_philo(t_philo **philo, t_info *info)
 {
 	int	i;
 
@@ -86,7 +84,7 @@ void	init_philo(t_philo **philo, t_info *info)
 	if (!(*philo))
 	{
 		free_info_malloc(info);
-		error_exit("malloc error");
+		return (return_error("argument error"));
 	}
 	i = 0;
 	while (i < info->num_of_philo)
@@ -101,6 +99,7 @@ void	init_philo(t_philo **philo, t_info *info)
 		(*philo)[i].is_die = 0;
 		i++;
 	}
+	return (1);
 }
 
 void	free_info_malloc(t_info *info)
