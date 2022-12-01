@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:05 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 18:51:42 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:26:36 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	start_philo_process(t_philo **philo, t_info *info)
 		usleep(info->time_to_die * 1000);
 		printf("%lld %d is died\n", \
 			get_time() - info->start_time, 1);
+		pthread_detach((*philo)[0].thread);
 		return ;
 	}
 	monitoring(philo, info);
@@ -62,8 +63,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
-		usleep(200);
-		// usleep(philo->info->time_to_eat * 1000);
+		usleep(800);
 	while (check_all_alive(philo->info))
 	{
 		philo_eat(philo);

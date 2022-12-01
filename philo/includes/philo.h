@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:15 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 18:51:11 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/01 12:37:45 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_info
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	guard;
 	pthread_mutex_t	print;
-	// pthread_mutex_t	moniter;
 }	t_info;
 
 typedef struct s_philo
@@ -47,33 +46,27 @@ typedef struct s_philo
 	int				is_die;
 }	t_philo;
 
-// philo.c
 void		start_philo_process(t_philo **philo, t_info *info);
 void		*routine(void *arg);
 
-// init.c
 int			philo_atoi(const char *str);
 int			init_info(t_info *info, int argc, char **argv);
-int			check_info_value(t_info *info);
+int			check_info_value(t_info *info, int argc);
 int			init_philo(t_philo **philo, t_info *info);
 void		free_info_malloc(t_info *info);
 
-// act.c
 void		philo_eat(t_philo *philo);
 void		philo_sleep(t_philo *philo);
 void		philo_think(t_philo *philo);
 
-// monitor.c
 void		monitoring(t_philo **philo, t_info *info);
 void		check_philo_die(t_philo *philo, t_info *info);
 int			check_all_alive(t_info *info);
 
-// utils.c
 void		print_status(t_philo *philo, char *str);
 long long	get_time(void);
 int			return_error(char *str);
 
-// free.c
 void		free_all(t_philo **philo, t_info *info);
 
 #endif

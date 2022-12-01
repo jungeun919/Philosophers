@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:57:03 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 17:09:39 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:11:56 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	init_info(t_info *info, int argc, char **argv)
 		info->must_eat_count = philo_atoi(argv[5]);
 	else
 		info->must_eat_count = -1;
-	if (!(check_info_value(info)))
+	if (!(check_info_value(info, argc)))
 		return (return_error("argument error"));
 	info->all_alive = 1;
 	info->forks = \
@@ -65,12 +65,13 @@ int	init_info(t_info *info, int argc, char **argv)
 	return (1);
 }
 
-int	check_info_value(t_info *info)
+int	check_info_value(t_info *info, int argc)
 {
 	if (info->num_of_philo <= 0 || \
 		info->time_to_die <= 0 || \
 		info->time_to_eat <= 0 || \
-		info->time_to_sleep <= 0)
+		info->time_to_sleep <= 0 || \
+		((argc == 6) && (info->must_eat_count <= 0)))
 		return (0);
 	else
 		return (1);
@@ -80,7 +81,7 @@ int	init_philo(t_philo **philo, t_info *info)
 {
 	int	i;
 
-	*philo = malloc(sizeof(t_philo) * info->num_of_philo);
+	*philo = (t_philo *)malloc(sizeof(t_philo) * info->num_of_philo);
 	if (!(*philo))
 	{
 		free_info_malloc(info);
