@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:48:32 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/12/05 15:19:56 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/05 16:01:35 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	print_status(t_philo *philo, char *str)
 		pthread_mutex_unlock(&(philo->info->guard));
 		return ;
 	}
-	pthread_mutex_unlock(&(philo->info->guard));
 	pthread_mutex_lock(&(philo->info->print));
 	printf("%lld %d %s\n", \
 		get_time() - philo->info->start_time, philo->id, str);
 	pthread_mutex_unlock(&(philo->info->print));
+	pthread_mutex_unlock(&(philo->info->guard));
 }
 
 long long	get_time(void)
