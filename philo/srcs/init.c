@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:57:03 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/12/05 20:19:23 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/05 20:21:11 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	init_philo(t_philo **philo, t_info *info)
 		(*philo)[i].right_fork = (i + 1) % info->num_of_philo;
 		(*philo)[i].eat_time = get_time();
 		(*philo)[i].eat_count = 0;
-		(*philo)[i].is_die = 0;
+		(*philo)[i].finish = 0;
 		i++;
 	}
 	return (1);

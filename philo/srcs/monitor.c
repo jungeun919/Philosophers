@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 16:45:26 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/12/05 15:14:34 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/05 20:21:27 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	monitoring(t_philo **philo, t_info *info)
 		{
 			check_philo_die(&((*philo)[i]), info);
 			pthread_mutex_lock(&((*philo)[i].guard));
-			if ((*philo)[i].is_die == 1)
+			if ((*philo)[i].finish == 1)
 				count++;
 			pthread_mutex_unlock(&((*philo)[i].guard));
 			i++;
@@ -42,7 +42,7 @@ void	monitoring(t_philo **philo, t_info *info)
 void	check_philo_die(t_philo *philo, t_info *info)
 {
 	pthread_mutex_lock(&(philo->guard));
-	if (philo->is_die == 0)
+	if (philo->finish == 0)
 	{
 		if (get_time() - philo->eat_time >= philo->info->time_to_die)
 		{

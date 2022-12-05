@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:15 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/12/04 14:57:26 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/05 20:20:37 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_philo
 	int				right_fork;
 	long long		eat_time;
 	int				eat_count;
-	int				is_die;
+	int				finish;
 }	t_philo;
 
 void		start_philo_process(t_philo **philo, t_info *info);

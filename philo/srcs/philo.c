@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:05 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/12/05 15:06:26 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/05 20:21:43 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	*routine(void *arg)
 		if (philo->eat_count == philo->info->must_eat_count)
 		{
 			pthread_mutex_lock(&(philo->guard));
-			philo->is_die = 1;
+			philo->finish = 1;
 			pthread_mutex_unlock(&(philo->guard));
 		}
 		philo_sleep(philo);
