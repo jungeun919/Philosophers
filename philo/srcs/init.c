@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:57:03 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/12/01 13:11:56 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/05 20:19:23 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,10 @@ void	free_info_malloc(t_info *info)
 	i = 0;
 	while (info->num_of_philo)
 	{
-		free(&(info->forks[i]));
+		pthread_mutex_destroy(&(info->forks[i]));
 		i++;
 	}
+	free(info->forks);
+	pthread_mutex_destroy(&(info->guard));
+	pthread_mutex_destroy(&(info->print));
 }
