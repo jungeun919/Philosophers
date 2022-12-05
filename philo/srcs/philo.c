@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:05 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/12/04 14:58:34 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/05 15:06:26 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	start_philo_process(t_philo **philo, t_info *info)
 	info->start_time = get_time();
 	if (info->num_of_philo == 1)
 	{
-		pthread_create(&((*philo)[i].thread), NULL, one_routine, &((*philo)[i]));
+		pthread_create(&((*philo)[i].thread), NULL, \
+			one_routine, &((*philo)[i]));
 		pthread_join((*philo)[i].thread, NULL);
 		return ;
 	}
