@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:15 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/12/05 20:20:37 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:33:33 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int			check_info_value(t_info *info, int argc);
 int			init_philo(t_philo **philo, t_info *info);
 void		free_info_malloc(t_info *info);
 
-void		get_fork(t_philo *philo);
 void		philo_eat(t_philo *philo);
 void		philo_sleep(t_philo *philo);
 void		philo_think(t_philo *philo);

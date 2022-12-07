@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 16:45:26 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/12/05 20:21:27 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:47:11 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,13 @@ void	check_philo_die(t_philo *philo, t_info *info)
 	{
 		if (get_time() - philo->eat_time >= philo->info->time_to_die)
 		{
-			print_status(philo, "is died");
 			pthread_mutex_lock(&(info->guard));
 			info->all_alive = 0;
 			pthread_mutex_unlock(&(info->guard));
+			pthread_mutex_lock(&(philo->info->print));
+			printf("%lld %d is died\n", \
+				get_time() - philo->info->start_time, philo->id);
+			pthread_mutex_unlock(&(philo->info->print));
 		}
 	}
 	pthread_mutex_unlock(&(philo->guard));

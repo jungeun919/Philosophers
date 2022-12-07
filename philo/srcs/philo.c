@@ -6,7 +6,7 @@
 /*   By: jungchoi <jungchoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:46:05 by jungchoi          #+#    #+#             */
-/*   Updated: 2022/12/05 20:21:43 by jungchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:39:28 by jungchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	*routine(void *arg)
 		usleep(800);
 	while (check_all_alive(philo->info))
 	{
-		get_fork(philo);
 		philo_eat(philo);
 		(philo->eat_count)++;
 		if (philo->eat_count == philo->info->must_eat_count)
